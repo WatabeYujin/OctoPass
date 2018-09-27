@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Title : MonoBehaviour {
 
+    [SerializeField, Header("ほたてObject")]
+    private GameObject Hotate;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -19,12 +22,18 @@ public class Title : MonoBehaviour {
     /// </summary>
     public void StartClick()
     {
-        Common.Instance.SceneMove(Common.SceneName.Main);
+        ScallopsAnim();
     }
 
-    private void ScallopsAnim()
+    /// <summary>
+    /// ほたてのアニメーション処理
+    /// </summary>
+    private IEnumerator ScallopsAnim()
     {
-
+        Animator anim = Hotate.GetComponent<Animator>();
+        anim.Play("Title_HotateAnim");
+        yield return new WaitForSeconds(1.5f);
+        Common.Instance.SceneMove(Common.SceneName.Main);
     }
 
 }
