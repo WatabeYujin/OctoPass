@@ -88,6 +88,16 @@
     <Compile Include="Assets\Scripts\Akashi\Common.cs" />
     <Compile Include="Assets\Scripts\Akashi\Result.cs" />
     <Compile Include="Assets\Scripts\Akashi\Title.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\CloneGenerator.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\Pearlmove.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\ScallopsMove.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\TextGenerator.cs" />
+    <Compile Include="Assets\Scripts\Watabe\OctfootParts.cs" />
+    <Compile Include="Assets\Scripts\Watabe\OctofootController.cs" />
+    <Compile Include="Assets\Scripts\Watabe\testbullet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Mapdatatext\savedata_1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
