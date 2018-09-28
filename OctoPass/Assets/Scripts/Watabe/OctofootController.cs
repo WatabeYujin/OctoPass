@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class OctofootController : MonoBehaviour {
 
@@ -14,9 +15,9 @@ public class OctofootController : MonoBehaviour {
     private int nowFootLength;                              //現在のタコ足の長さ                                
     private bool isfootOut = false;                         //タコ足が引っ込んでいるか
 
-    private Mesh defaltMesh;
-    private Material defaltMaterial;
-    private Avatar defaltAvatar;
+    private List<Mesh> defaltMesh = new List<Mesh>();
+    private List<Material> defaltMaterial = new List<Material>();
+    private List<Avatar> defaltAvatar = new List<Avatar>();
 
     private Mesh pointEndMesh;
     private Material pointEndMaterial;
@@ -47,10 +48,13 @@ public class OctofootController : MonoBehaviour {
     //自身の元のmesh・material・avatarを取得する
     void ThisModelGet()
     {
-        SkinnedMeshRenderer m_mesh = GetComponentInChildren<SkinnedMeshRenderer>();
-        defaltMesh = m_mesh.sharedMesh;
-        defaltMaterial = m_mesh.material;
-        defaltAvatar=GetComponent<Animator>().avatar;
+        foreach (Transform m_foots in foots)
+        {
+            SkinnedMeshRenderer m_mesh = m_foots.GetComponentInChildren<SkinnedMeshRenderer>();
+            defaltMesh.Add(m_mesh.sharedMesh);
+            defaltMaterial.Add(m_mesh.material);
+            defaltAvatar.Add(m_foots.GetComponent<Animator>().avatar);
+        }
     }
     
     //たこ足の先端のmesh・material・avatarを取得する
@@ -92,7 +96,7 @@ public class OctofootController : MonoBehaviour {
     IEnumerator FootOutAction()
     {
         Debug.Log(nowFootLength);
-        for (; nowFootLength >= 0 ; nowFootLength--)
+        for (; nowFootLength > 0 ; nowFootLength--)
         {
             FootPartsisActive(foots[nowFootLength], false);
             if(nowFootLength - 1>=0)
@@ -115,7 +119,7 @@ public class OctofootController : MonoBehaviour {
             Debug.Log(nowFootLength);
             FootPartsisActive(foots[nowFootLength], true);
             if (nowFootLength - 1 >= 0)
-                FootDefaltModelChange(foots[nowFootLength - 1]);
+                FootDefaltModelChange(foots[nowFootLength - 1], nowFootLength-1);
             yield return new WaitForSeconds(footActionSpeed / foots.Count);
         }
     }
@@ -128,8 +132,11 @@ public class OctofootController : MonoBehaviour {
     void FootPartsisActive(Transform footTransform,bool isActive)
     {
         footTransform.GetComponent<Collider>().enabled = isActive;
-        footTransform.GetComponentInChildren<SkinnedMeshRenderer>().enabled = isActive;
-        SuckerColliderisActive(footTransform, isActive);
+        SkinnedMeshRenderer[] m_skinnedMeshes= footTransform.GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (SkinnedMeshRenderer skinned in m_skinnedMeshes)
+        {
+            skinned.enabled = isActive;
+        }
     }
     
     /// <summary>
@@ -138,23 +145,28 @@ public class OctofootController : MonoBehaviour {
     /// <param name="footTransform">変更させるタコ足</param>
     void FootEndModelChange(Transform footTransform)
     {
-        //const string PointedEnd = "PointEnd"
+        SuckerColliderisActive(footTransform, false);
+        footTransform.GetComponent<Animator>().enabled = false;
         SkinnedMeshRenderer m_mesh = footTransform.GetComponentInChildren<SkinnedMeshRenderer>();
         footTransform.GetComponent<Animator>().avatar = pointEndAvatar;
         m_mesh.sharedMesh = pointEndMesh;
         m_mesh.material = pointEndMaterial;
+        
     }
 
     /// <summary>
     /// 元のmesh・avatar・materialに戻す処理
     /// </summary>
-    /// <param name="footTransform"></param>
-    void FootDefaltModelChange(Transform footTransform)
+    /// <param name="footTransform">変更するタコ足</param>
+    /// <param name="isActive">タコ足のリストでの番号</param>
+    void FootDefaltModelChange(Transform footTransform,int footsID)
     {
+        SuckerColliderisActive(footTransform, true);
+        footTransform.GetComponent<Animator>().enabled = true;
         SkinnedMeshRenderer m_mesh = footTransform.GetComponentInChildren<SkinnedMeshRenderer>();
-        footTransform.GetComponent<Animator>().avatar = defaltAvatar;
-        m_mesh.sharedMesh = defaltMesh;
-        m_mesh.material = defaltMaterial;
+        footTransform.GetComponent<Animator>().avatar = defaltAvatar[footsID];
+        m_mesh.sharedMesh = defaltMesh[footsID];
+        m_mesh.material = defaltMaterial[footsID];
     }
 
     /// <summary>
@@ -165,12 +177,17 @@ public class OctofootController : MonoBehaviour {
     /// <returns>発見し、変更を行った場合true、それ以外はfalse</returns>
     bool SuckerColliderisActive(Transform footTransform,bool isActive)
     {
+        Debug.Log("吸盤"+ footTransform.name);
         const string m_suckerTagName = "Sucker";
-        foreach(Transform child in footTransform)
+        const string m_sukerSetName = "SuckerSet";
+        foreach (Transform child in footTransform)
         {
             if (child.tag == m_suckerTagName)
             {
                 child.GetComponent<Collider>().enabled = isActive;
+                Debug.Log(footTransform);
+                GameObject m_sukerSet = footTransform.Find(m_sukerSetName).gameObject;
+                m_sukerSet.SetActive(isActive);
                 return true;
             }
         }
