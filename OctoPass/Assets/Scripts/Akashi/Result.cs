@@ -24,7 +24,7 @@ public class Result : MonoBehaviour {
         canvas = GameObject.Find("Canvas");
         _goal = true;
         Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
-        StartCoroutine(ScallopsTopAnim());
+        //StartCoroutine(ScallopsTopAnim());
 	}
 
     private void Update()
@@ -79,22 +79,22 @@ public class Result : MonoBehaviour {
     /// <param name="fase">n番目のフェーズ</param>
     private void Evaluation(int count,GameObject faseChild)
     {
-        GameObject EvalPrefab;
+        GameObject EvalPrefab = null;
         switch (count)
         {
             case 1:
-                EvalPrefab = GameObject.Find("");
+                EvalPrefab = Resources.Load("Prefabs/Bubble_S") as GameObject;
                 break;
             case 2:
-                EvalPrefab = GameObject.Find("");
+                EvalPrefab = Resources.Load("Prefabs/Bubble_A") as GameObject;
                 break;
             case 3:
             case 4:
             case 5:
-                EvalPrefab = GameObject.Find("");
+                EvalPrefab = Resources.Load("Prefabs/Bubble_B") as GameObject;
                 break;
             default:
-                EvalPrefab = GameObject.Find("");
+                EvalPrefab = Resources.Load("Prefabs/Bubble_C") as GameObject;
                 break;
         }
         Instantiate(EvalPrefab, faseChild.transform);
