@@ -88,7 +88,9 @@
     <Compile Include="Assets\Scripts\Akashi\Common.cs" />
     <Compile Include="Assets\Scripts\Akashi\Result.cs" />
     <Compile Include="Assets\Scripts\Akashi\Title.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\ClearGimmick.cs" />
     <Compile Include="Assets\Scripts\Sakuma\CloneGenerator.cs" />
+    <Compile Include="Assets\Scripts\Sakuma\GameManager.cs" />
     <Compile Include="Assets\Scripts\Sakuma\Pearlmove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\ScallopsMove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\TextGenerator.cs" />
@@ -98,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mapdatatext\savedata_1.txt" />
+    <None Include="Assets\Mapdatatext\savedata_2.txt" />
+    <None Include="Assets\Mapdatatext\savedata_3.txt" />
+    <None Include="Assets\Mapdatatext\savedata_4.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

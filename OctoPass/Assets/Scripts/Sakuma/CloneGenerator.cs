@@ -31,16 +31,17 @@ public class CloneGenerator : MonoBehaviour {
                     float.Parse(texts[(i * 4) + 3]));
 
             }
-            else { 
+            else
+            {
 
 
-            Instantiate(
-                list[int.Parse(texts[i * 4])],
-                new Vector3(
-                    float.Parse(texts[(i * 4) + 1]),
-                    float.Parse(texts[(i * 4) + 2]),
-                    float.Parse(texts[(i * 4) + 3])),
-                Quaternion.identity);
+                Instantiate(
+                    list[int.Parse(texts[i * 4])],
+                    new Vector3(
+                        float.Parse(texts[(i * 4) + 1]),
+                        float.Parse(texts[(i * 4) + 2]),
+                        float.Parse(texts[(i * 4) + 3])),
+                    Quaternion.identity);
             }
         }
 

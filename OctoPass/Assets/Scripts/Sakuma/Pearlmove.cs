@@ -12,17 +12,22 @@ public class Pearlmove : MonoBehaviour {
 
     [SerializeField]
     private float speed;
+    [SerializeField]
+    private float destroyTime;
+
 
     // Update is called once per frame
-	void Update () {
+    void Update () {
         if (move)
         {
             this.transform.Translate(Mathf.Cos(angle)*speed, Mathf.Sin(angle)*speed, 0f);
             time += Time.deltaTime;
-            if(time >= 3.0f)
+            if(time >= destroyTime)
             {
                 Destroy(this.gameObject);
             }
+
+
 
         }
 	}
@@ -31,7 +36,6 @@ public class Pearlmove : MonoBehaviour {
     {
         scallops = GameObject.Find("scallops");
             angle = scallops.transform.localEulerAngles.z * Mathf.PI / 180.0f;
-
         move = true;
     }
 
