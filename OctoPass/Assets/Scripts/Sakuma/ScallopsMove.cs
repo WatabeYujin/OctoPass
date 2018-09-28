@@ -10,6 +10,8 @@ public class ScallopsMove : MonoBehaviour {
     GameObject scallops;
     [SerializeField]
     GameObject pr;
+    [SerializeField]
+    Animator anim;
     
     [SerializeField]
     private float top;
@@ -25,8 +27,8 @@ public class ScallopsMove : MonoBehaviour {
     private void Start()
     {
         Debug.Log(this.transform.root.name);
-        scallops = this.transform.root.transform.FindChild("Scallops(Clone)").transform.FindChild("scallops").gameObject;
-        wa= this.transform.root.transform.FindChild("Scallops(Clone)").transform.FindChild("Line").gameObject;
+        scallops = this.transform.root.transform.Find("Scallops(Clone)").transform.Find("scallops").gameObject;
+        wa= this.transform.root.transform.Find("Scallops(Clone)").transform.Find("Line").gameObject;
     }
 
 
@@ -71,11 +73,11 @@ public class ScallopsMove : MonoBehaviour {
 
             }
 
-            GameObject[] cubes = GameObject.FindGameObjectsWithTag("pearl");
-            //Debug.Log(cubes.Length);
+            GameObject[] cubes = GameObject.FindGameObjectsWithTag("Pearl");
 
             if (Input.GetMouseButtonDown(0) && cubes.Length == 0)
             {
+                anim.SetTrigger("Pass");
                 Instantiate(pr, scallops.transform.position, Quaternion.identity);
             }
 

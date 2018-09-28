@@ -42,12 +42,13 @@ public class Common : MonoBehaviour {
     {
         DontDestroyOnLoad(this.gameObject.transform.parent);
         FadeObject.SetActive(false);
+        Application.targetFrameRate = 60;           //目標FPSを60に設定
         fasePaerl = new int[fase];
     }
 
     /// <summary>
     /// スコアアップする時に呼ぶ処理
-    /// 使い方: Common.Instance.ScoreUp();
+    /// 使い方: Common.Instance.PearlCountUp();
     /// </summary>
     public void PearlCountUp()
     {

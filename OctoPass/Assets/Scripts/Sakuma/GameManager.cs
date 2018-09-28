@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour {
     {
         if (rsflg)
         {
-            retext.GetComponent<Text>().text = "リザルト";
+            //retext.GetComponent<Text>().text = "リザルト";
             if (Input.GetMouseButton(0))
             {
-                retext.GetComponent<Text>().text = "";
+                //retext.GetComponent<Text>().text = "";
                 anime = true;
                 rsflg = false;
             }
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
                 {
                     maincamera.transform.Translate(0.1f, 0, 0);
                     cmid += 0.1f;
-                    moveobj =GameObject.Find("stage" + (nowstage - 1)).transform.FindChild("Clear(Clone)").gameObject;
+                    moveobj =GameObject.Find("stage" + (nowstage - 1)).transform.Find("Clear(Clone)").gameObject;
                     moveobj.transform.Translate(0.05f, 0, 0);
                 }
                 else
@@ -81,8 +81,10 @@ public class GameManager : MonoBehaviour {
     void Start () {
         map = GameObject.Find("stage");
         nowstage = 1;
+        
         gamestart(nowstage);
         next = nowstage;
+
 	}
 
      private void gamestart(int num)

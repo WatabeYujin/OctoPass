@@ -16,7 +16,6 @@ public class sphere : MonoBehaviour {
     float time;
 
     public float reflectSpeed = 1f;
-    public GameObject ball;
     public GameObject mainBody;
     
 
@@ -38,33 +37,40 @@ public class sphere : MonoBehaviour {
         //    time += Time.deltaTime;
         //}
         //if (time < 3) Destroy(this);
-
-
+        
         //バールをtranslateで動くします
         if (startMoving)
         {
+            Debug.Log("startMoving");
             transform.Translate(reflectDir * reflectSpeed * Time.deltaTime, 0);
             time += Time.deltaTime;
             if (time >= 3.0f)
             {
-                Destroy(this.gameObject);
+
+                //Destroy(this.gameObject);
             }
         }
 
         else startMoving = false;
+
+        if (!GetComponent<Renderer>().isVisible)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision touches)
     {
+        
         Debug.Log("ball touches " + touches.gameObject.name);
         // if ball touches sucker item destroy else reflect
         // バールが吸盤があった手にあったたらなくなる
-        if (touches.gameObject.tag == "sucker")
+        if (touches.gameObject.tag == "Sucker")
         {
             Destroy(this.gameObject);
         }
         //バールが何もついてない手にあったたら反射する
-        else if (touches.gameObject.tag == "tako")
+        else if (touches.gameObject.tag == "Untagged")
         {
             //コンフリクトしないよう別のスクリプトを無効にします。
             otherScript.enabled = false;
@@ -87,6 +93,9 @@ public class sphere : MonoBehaviour {
         before_hit = touches.transform.position;
     }
 
-
+    private void OnDestroy()
+    {
+        Common.Instance.PearlCountUp();
+    }
 
 }

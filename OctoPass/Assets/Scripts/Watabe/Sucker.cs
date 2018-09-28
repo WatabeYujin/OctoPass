@@ -17,7 +17,7 @@ public class Sucker : MonoBehaviour {
 
     void PearEnter(Transform pearTransform)
     {
-        const string m_pearlTagName = "pearl";
+        const string m_pearlTagName = "Pearl";
         if (pearTransform.tag != m_pearlTagName) return;
         Debug.Log("真珠側から真珠ロスト時の処理を呼び出す");
     }

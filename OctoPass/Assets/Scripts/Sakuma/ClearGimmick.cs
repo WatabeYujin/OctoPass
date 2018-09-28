@@ -17,9 +17,9 @@ public class ClearGimmick : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "pearl")
+        if (other.gameObject.tag == "Pearl")
         {
-            GameObject[] cubes = GameObject.FindGameObjectsWithTag("pearl");
+            GameObject[] cubes = GameObject.FindGameObjectsWithTag("Pearl");
             for(int i = 0; i < cubes.Length; i++)
             {
                 Destroy(cubes[i].gameObject);

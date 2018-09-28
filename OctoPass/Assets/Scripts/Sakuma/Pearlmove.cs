@@ -26,16 +26,14 @@ public class Pearlmove : MonoBehaviour {
             {
                 Destroy(this.gameObject);
             }
-
-
-
         }
 	}
 
     private void Start()
     {
+        
         scallops = GameObject.Find("scallops");
-            angle = scallops.transform.localEulerAngles.z * Mathf.PI / 180.0f;
+        angle = scallops.transform.localEulerAngles.z * Mathf.PI / 180.0f;
         move = true;
     }
 
