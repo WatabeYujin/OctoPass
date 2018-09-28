@@ -6,9 +6,9 @@ using System;
 public class OctofootController : MonoBehaviour {
 
     [SerializeField]
-    private List<Transform> foots = new List<Transform>();
+    private List<Transform> foots = new List<Transform>();      //タコ足のリスト。最後を足の先っぽにすること
     [SerializeField]
-    private float footActionSpeed=1;
+    private float footActionSpeed=1;                            //
     [SerializeField]
     private float footBackSpeed = 1;
 
@@ -19,7 +19,6 @@ public class OctofootController : MonoBehaviour {
     private bool isfootOut=false;
     private Mesh pointEndMesh;
     private Material pointEndMaterial;
-
     // Use this for initialization
     void Awake () {
         ThisModelGet();
@@ -39,14 +38,14 @@ public class OctofootController : MonoBehaviour {
         defaltMesh = m_mesh.sharedMesh;
         defaltMaterial = m_mesh.material;
     }
-
+    
     void pointEndModelGet()
     {
         SkinnedMeshRenderer m_mesh = foots[foots.Count-1].GetComponent<SkinnedMeshRenderer>();
         pointEndMesh = m_mesh.sharedMesh;
         pointEndMaterial = m_mesh.material;
     }
-
+    
     /// <summary>
     /// たこ足を引っ込める処理を行う
     /// </summary>
@@ -77,6 +76,7 @@ public class OctofootController : MonoBehaviour {
     /// <returns></returns>
     IEnumerator FootOutAction()
     {
+        Debug.Log(nowFootLength);
         for (; nowFootLength >= 0 ; nowFootLength--)
         {
             FootPartsisActive(foots[nowFootLength], false);
@@ -95,7 +95,7 @@ public class OctofootController : MonoBehaviour {
     {
         yield return new WaitForSeconds(footBackSpeed);
         nowFootLength = -1;
-        while (nowFootLength < foots.Count-1)
+        while (nowFootLength < foots.Count - 1)
         {
             nowFootLength++;
             Debug.Log(nowFootLength);
@@ -103,8 +103,7 @@ public class OctofootController : MonoBehaviour {
             if (nowFootLength - 1 >= 0)
                 FootDefaltModelChange(foots[nowFootLength - 1]);
             yield return new WaitForSeconds(footActionSpeed / foots.Count);
-            
-        };
+        }
     }
 
     /// <summary>
@@ -129,7 +128,6 @@ public class OctofootController : MonoBehaviour {
         SkinnedMeshRenderer m_mesh = footTransform.GetComponent<SkinnedMeshRenderer>();
         m_mesh.sharedMesh = pointEndMesh;
         m_mesh.material = pointEndMaterial;
-        UpdateMeshRenderer(m_mesh);
     }
 
     void FootDefaltModelChange(Transform footTransform)
@@ -137,24 +135,5 @@ public class OctofootController : MonoBehaviour {
         SkinnedMeshRenderer m_mesh = footTransform.GetComponent<SkinnedMeshRenderer>();
         m_mesh.sharedMesh = defaltMesh;
         m_mesh.material = defaltMaterial;
-        UpdateMeshRenderer(m_mesh);
-    }
-
-    public void UpdateMeshRenderer(SkinnedMeshRenderer newMeshRenderer)
-    {
-        return;
-        // meshの更新
-        SkinnedMeshRenderer m_childMeshrenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        m_childMeshrenderer.sharedMesh = newMeshRenderer.sharedMesh;
-
-        Transform[] m_childTransforms = transform.GetComponentsInChildren<Transform>(true);
-
-        //ボーンのソート
-        Transform[] bones = new Transform[newMeshRenderer.bones.Length];
-        for (int boneOrder = 0; boneOrder < newMeshRenderer.bones.Length; boneOrder++)
-        {
-            bones[boneOrder] = Array.Find<Transform>(m_childTransforms, c => c.name == newMeshRenderer.bones[boneOrder].name);
-        }
-        m_childMeshrenderer.bones = bones;
     }
 }
