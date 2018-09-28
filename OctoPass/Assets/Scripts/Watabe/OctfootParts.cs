@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class OctfootParts : MonoBehaviour {
-    [SerializeField]
-    OctofootController octofootController;
+    private OctofootController octofootController;
 
     public void OnCollisionEnter(Collision col)
     {
@@ -18,9 +17,13 @@ public class OctfootParts : MonoBehaviour {
 
     void PearEnter(Transform pearTransform)
     {
-        Debug.Log("接触");
         const string m_pearlTagName = "pearl";
         if (pearTransform.tag != m_pearlTagName) return;
         octofootController.FootOut();
+    }
+
+    public void OctoFootControllerSet(OctofootController controller)
+    {
+        octofootController = controller;
     }
 }
