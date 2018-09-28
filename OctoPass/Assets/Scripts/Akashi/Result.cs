@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Result : MonoBehaviour {
 
     [SerializeField, Header("リザルトPrefab")]
     private GameObject ResultPrefab;
-    private Text HanteiText;
+    private Text Fase_1_Text;
     private Text CountText;
     private Button Nextbtn;
     private GameObject canvas;
+    [SerializeField, Header("ホタテの上の貝の部分")]
+    private GameObject Scallops_Top;
+    [SerializeField, Header("評価Object")]
+    private GameObject[] Eval_obj;
+
+    private GameObject Prefab;
 
     private bool _goal = false;
 
@@ -18,7 +23,25 @@ public class Result : MonoBehaviour {
 	void Start () {
         canvas = GameObject.Find("Canvas");
         _goal = true;
+        Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
+        StartCoroutine(ScallopsTopAnim());
 	}
+
+    private void Update()
+    {
+
+    }
+
+    /// <summary>
+    /// ホタテが開く時のアニメーション処理
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator ScallopsTopAnim()
+    {
+        Scallops_Top.GetComponent<Animation>().Play();
+        yield return new WaitForSeconds(1.2f);
+        ResultInstance();
+    }
 
     /// <summary>
     /// タイトルに戻る処理
@@ -26,54 +49,55 @@ public class Result : MonoBehaviour {
     private void NextClick()
     {
         Common.Instance.SceneMove(Common.SceneName.Title);
+        Destroy(Prefab, 2f);
     }
 
     /// <summary>
     /// リザルトPrefabを生成
     /// </summary>
-    public void ResultInstance()
+    private void ResultInstance()
     {
-        GameObject Prefab = Instantiate(ResultPrefab, canvas.transform);
-        HanteiText = GameObject.Find("Canvas/ResultPrefab(Clone)/Hantei").GetComponent<Text>();
-        CountText = GameObject.Find("Canvas/ResultPrefab(Clone)/Count").GetComponent<Text>();
+        Prefab = Instantiate(ResultPrefab, canvas.transform);
+        Fase_1_Text = GameObject.Find("Canvas/ResultPrefab(Clone)/Hantei").GetComponent<Text>();
+        CountText = GameObject.Find("Canvas/ResultPrefab(Clone)/SumPearl/Count").GetComponent<Text>();
         Nextbtn = GameObject.Find("Canvas/ResultPrefab(Clone)/ToTitle").GetComponent<Button>();
         Nextbtn.onClick.AddListener(NextClick);
-        HanteiText.text = Evaluation(Common.pearlCount);
-        CountText.text = Common.pearlCount.ToString();
-        //if (_goal)
-        //{
-        //    GameObject Prefab = Instantiate(ResultPrefab, canvas.transform);
-        //    HanteiText = GameObject.Find("Canvas/ResultPrefab/Hantei").GetComponent<Text>();
-        //    CountText = GameObject.Find("Canvas/ResultPrefab/Count").GetComponent<Text>();
-        //    HanteiText.text = Evaluation(Common.pearlCount);
-        //    CountText.text = Common.pearlCount.ToString();
-        //}
+        int sumPearl = 0;
+        for (int i = 0; i < Common.Instance.fase; i++)
+        {
+            GameObject FaseCount = GameObject.Find("Canvas/ResultPrefab(Clone)/Hantei/Fase/Fase_" + i);
+            Evaluation(Common.Instance.fasePaerl[i], FaseCount);
+            sumPearl += Common.Instance.fasePaerl[i];
+        }
+        CountText.text = sumPearl.ToString();
     }
 
     /// <summary>
     /// パールの数に応じて評価を変更する処理
     /// </summary>
-    private string Evaluation(int count)
+    /// <param name="count">パールの数</param>
+    /// <param name="fase">n番目のフェーズ</param>
+    private void Evaluation(int count,GameObject faseChild)
     {
-        string eval;
+        GameObject EvalPrefab;
         switch (count)
         {
             case 1:
-                eval = "S";
+                EvalPrefab = GameObject.Find("");
                 break;
             case 2:
-                eval = "A";
+                EvalPrefab = GameObject.Find("");
                 break;
             case 3:
             case 4:
             case 5:
-                eval = "B";
+                EvalPrefab = GameObject.Find("");
                 break;
             default:
-                eval = "C";
+                EvalPrefab = GameObject.Find("");
                 break;
         }
-        Debug.Log("数&評価: " + Common.pearlCount + "&" + eval);
-        return eval;
+        Instantiate(EvalPrefab, faseChild.transform);
+        
     }
 }

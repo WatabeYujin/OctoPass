@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Title : MonoBehaviour {
@@ -7,14 +6,12 @@ public class Title : MonoBehaviour {
     [SerializeField, Header("ほたてObject")]
     private GameObject Hotate;
 
+    private bool _once = false;
+
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        Hotate.transform.localPosition = new Vector3(238, -104, 3);
+        _once = false;
 	}
 
     /// <summary>
@@ -22,7 +19,11 @@ public class Title : MonoBehaviour {
     /// </summary>
     public void StartClick()
     {
-        ScallopsAnim();
+        if (!_once)
+        {
+            StartCoroutine(ScallopsAnim());
+            _once = true;
+        }
     }
 
     /// <summary>
@@ -30,10 +31,8 @@ public class Title : MonoBehaviour {
     /// </summary>
     private IEnumerator ScallopsAnim()
     {
-        Animator anim = Hotate.GetComponent<Animator>();
-        anim.Play("Title_HotateAnim");
-        yield return new WaitForSeconds(1.5f);
+        Hotate.GetComponent<Animation>().Play();
+        yield return new WaitForSeconds(1.2f);
         Common.Instance.SceneMove(Common.SceneName.Main);
     }
-
 }

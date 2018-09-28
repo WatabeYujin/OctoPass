@@ -20,18 +20,29 @@ public class Common : MonoBehaviour {
         }
     }
 
-    //スコアの合計
-    [HideInInspector]
-    public static int pearlCount = 1;
+    //フェーズの数
+    public int fase = 10;
 
+    //フェーズ毎のパール数を保存
+    [HideInInspector]
+    public int[] fasePaerl;
+
+    //現パール数
+    private int pearlCount = 0;
+
+    //フェード中かどうか
     private bool isFading = false;
-    private Color fadeColor = Color.black;
-    private float fadeAlpha = 0;
+
+    private bool _fadeAnimFinish = false;
+
+    private bool _faseFinish = false;
+    private int count = 0;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject.transform.parent);
         FadeObject.SetActive(false);
+        fasePaerl = new int[fase];
     }
 
     /// <summary>
@@ -40,8 +51,13 @@ public class Common : MonoBehaviour {
     /// </summary>
     public void PearlCountUp()
     {
+        if (_faseFinish)
+        {
+            count++;
+            fasePaerl[count] = pearlCount;
+            pearlCount = 0;
+        }
         pearlCount++;
-        //Debug.Log("Score: " + score);
     }
 
     /// <summary>
@@ -64,13 +80,13 @@ public class Common : MonoBehaviour {
     }
 
     /// <summary>
-    /// フェードイン→遷移→フェードアウト処理
+    /// フェードイン処理
     /// </summary>
-    /// <param name="s_name"></param>
     /// <returns></returns>
-    private IEnumerator Fade(SceneName s_name)
+    private IEnumerator FadeIn()
     {
         FadeObject.SetActive(true);
+        _fadeAnimFinish = false;
         this.isFading = true;
         float a = 0;
         while (a < 1)
@@ -79,9 +95,16 @@ public class Common : MonoBehaviour {
             a += 0.02f;
             yield return 0;
         }
+        _fadeAnimFinish = true;
+    }
 
-        SceneManager.LoadScene((int)s_name);
-
+    /// <summary>
+    /// フェードアウト処理
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeOut()
+    {
+        float a = 1;
         while (a > 0)
         {
             FadeObject.GetComponent<Image>().color = new Color(0, 0, 0, a);
@@ -89,12 +112,26 @@ public class Common : MonoBehaviour {
             yield return 0;
         }
         this.isFading = false;
+        FadeObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// フェードイン→遷移→フェードアウト処理
+    /// </summary>
+    /// <param name="s_name"></param>
+    /// <returns></returns>
+    private IEnumerator Fade(SceneName s_name)
+    {
+        StartCoroutine(FadeIn());
+        yield return new WaitUntil(() => _fadeAnimFinish);
+        SceneManager.LoadScene((int)s_name);
+        StartCoroutine(FadeOut());
+
         if (s_name == SceneName.Title)
         {
             GameObject obj = gameObject.transform.parent.gameObject;
             Destroy(obj);
             common_canvas = null;
         }
-        FadeObject.SetActive(false);
     }
 }
