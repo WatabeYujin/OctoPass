@@ -10,7 +10,7 @@ public class Title : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Hotate.transform.localPosition = new Vector3(238, -104, 3);
+        Result result = GetComponent<Result>();
         _once = false;
 	}
 
@@ -31,7 +31,7 @@ public class Title : MonoBehaviour {
     /// </summary>
     private IEnumerator ScallopsAnim()
     {
-        Hotate.GetComponent<Animation>().Play();
+        //Hotate.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(1.2f);
         Common.Instance.SceneMove(Common.SceneName.Main);
     }

@@ -6,14 +6,10 @@ public class Result : MonoBehaviour {
 
     [SerializeField, Header("リザルトPrefab")]
     private GameObject ResultPrefab;
-    private Text Fase_1_Text;
     private Text CountText;
     private Button Nextbtn;
-    private GameObject canvas;
     [SerializeField, Header("ホタテの上の貝の部分")]
     private GameObject Scallops_Top;
-    [SerializeField, Header("評価Object")]
-    private GameObject[] Eval_obj;
 
     private GameObject Prefab;
 
@@ -21,10 +17,8 @@ public class Result : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        canvas = GameObject.Find("Canvas");
         _goal = true;
-        Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
-        //StartCoroutine(ScallopsTopAnim());
+        //Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
 	}
 
     private void Update()
@@ -55,20 +49,32 @@ public class Result : MonoBehaviour {
     /// <summary>
     /// リザルトPrefabを生成
     /// </summary>
-    private void ResultInstance()
+    public void ResultInstance()
     {
-        Prefab = Instantiate(ResultPrefab, canvas.transform);
-        Fase_1_Text = GameObject.Find("Canvas/ResultPrefab(Clone)/Hantei").GetComponent<Text>();
-        CountText = GameObject.Find("Canvas/ResultPrefab(Clone)/SumPearl/Count").GetComponent<Text>();
-        Nextbtn = GameObject.Find("Canvas/ResultPrefab(Clone)/ToTitle").GetComponent<Button>();
+        Prefab = Instantiate(ResultPrefab);
+        CountText = GameObject.Find("ResultPrefab(Clone)/SumPearl/Count").GetComponent<Text>();
+        Nextbtn = GameObject.Find("ResultPrefab(Clone)/ToTitle").GetComponent<Button>();
         Nextbtn.onClick.AddListener(NextClick);
+        Nextbtn.gameObject.SetActive(false);
+        StartCoroutine(EvalWaitAnim());
+    }
+
+    /// <summary>
+    /// 評価のアニメーション待機処理
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator EvalWaitAnim()
+    {
         int sumPearl = 0;
+        yield return new WaitForSeconds(2f);
         for (int i = 0; i < Common.Instance.fase; i++)
         {
-            GameObject FaseCount = GameObject.Find("Canvas/ResultPrefab(Clone)/Hantei/Fase/Fase_" + i);
+            GameObject FaseCount = GameObject.Find("ResultPrefab(Clone)/Hantei/Fase/Fase_" + i);
             Evaluation(Common.Instance.fasePaerl[i], FaseCount);
             sumPearl += Common.Instance.fasePaerl[i];
         }
+        yield return new WaitForSeconds(1.0f);
+        Nextbtn.gameObject.SetActive(true);
         CountText.text = sumPearl.ToString();
     }
 
