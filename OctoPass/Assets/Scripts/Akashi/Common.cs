@@ -9,6 +9,8 @@ public class Common : MonoBehaviour {
     [SerializeField, Header("Fade Object")]
     private GameObject FadeObject;
     private static GameObject common_canvas;
+    [SerializeField]
+    private Result result;
 
     public static Common Instance
     {
@@ -52,13 +54,17 @@ public class Common : MonoBehaviour {
     /// </summary>
     public void PearlCountUp()
     {
-        if (_faseFinish)
-        {
-            count++;
-            fasePaerl[count] = pearlCount;
-            pearlCount = 0;
-        }
-        pearlCount++;
+        fasePaerl[count]++;
+    }
+
+    public void NextPhase()
+    {
+        const string m_phaseRunkObjName = "PhaseRunk";
+
+        count++;
+        Debug.Log(count+ "count");
+        pearlCount = 0;
+        GameObject.Find(m_phaseRunkObjName).GetComponent<PhaseResult>().RunkView();
     }
 
     /// <summary>
@@ -131,8 +137,12 @@ public class Common : MonoBehaviour {
         if (s_name == SceneName.Title)
         {
             GameObject obj = gameObject.transform.parent.gameObject;
-            Destroy(obj);
+            Destroy(obj,0.2f);
             common_canvas = null;
         }
+    }
+    public void ViewResult()
+    {
+        result.ResultInstance();
     }
 }

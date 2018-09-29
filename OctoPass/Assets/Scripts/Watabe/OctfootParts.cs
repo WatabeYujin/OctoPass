@@ -17,7 +17,7 @@ public class OctfootParts : MonoBehaviour {
 
     void PearEnter(Transform pearTransform)
     {
-        const string m_pearlTagName = "pearl";
+        const string m_pearlTagName = "Pearl";
         if (pearTransform.tag != m_pearlTagName) return;
         octofootController.FootOut();
     }

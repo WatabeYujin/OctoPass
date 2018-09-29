@@ -131,6 +131,7 @@ public class OctofootController : MonoBehaviour {
     /// <param name="isActive">表示非表示</param>
     void FootPartsisActive(Transform footTransform,bool isActive)
     {
+        SuckerColliderisActive(footTransform, false);
         footTransform.GetComponent<Collider>().enabled = isActive;
         SkinnedMeshRenderer[] m_skinnedMeshes= footTransform.GetComponentsInChildren<SkinnedMeshRenderer>();
         foreach (SkinnedMeshRenderer skinned in m_skinnedMeshes)
@@ -145,7 +146,7 @@ public class OctofootController : MonoBehaviour {
     /// <param name="footTransform">変更させるタコ足</param>
     void FootEndModelChange(Transform footTransform)
     {
-        SuckerColliderisActive(footTransform, false);
+        
         footTransform.GetComponent<Animator>().enabled = false;
         SkinnedMeshRenderer m_mesh = footTransform.GetComponentInChildren<SkinnedMeshRenderer>();
         footTransform.GetComponent<Animator>().avatar = pointEndAvatar;

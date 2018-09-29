@@ -74,6 +74,9 @@
     <Reference Include="UnityEngine.VR">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
@@ -85,6 +88,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleSprite.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
     <Compile Include="Assets\Scripts\Akashi\Common.cs" />
     <Compile Include="Assets\Scripts\Akashi\Result.cs" />
     <Compile Include="Assets\Scripts\Akashi\Title.cs" />
@@ -94,15 +104,27 @@
     <Compile Include="Assets\Scripts\Sakuma\Pearlmove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\ScallopsMove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\TextGenerator.cs" />
+    <Compile Include="Assets\Scripts\Vincent\sphere.cs" />
     <Compile Include="Assets\Scripts\Watabe\OctfootParts.cs" />
     <Compile Include="Assets\Scripts\Watabe\OctofootController.cs" />
+    <Compile Include="Assets\Scripts\Watabe\PhaseResult.cs" />
+    <Compile Include="Assets\Scripts\Watabe\Sucker.cs" />
     <Compile Include="Assets\Scripts\Watabe\testbullet.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\Mapdatatext\savedata_1.txt" />
+    <None Include="Assets\Mapdatatext\savedata_10.txt" />
     <None Include="Assets\Mapdatatext\savedata_2.txt" />
     <None Include="Assets\Mapdatatext\savedata_3.txt" />
     <None Include="Assets\Mapdatatext\savedata_4.txt" />
+    <None Include="Assets\Mapdatatext\savedata_5.txt" />
+    <None Include="Assets\Mapdatatext\savedata_6.txt" />
+    <None Include="Assets\Mapdatatext\savedata_7.txt" />
+    <None Include="Assets\Mapdatatext\savedata_8.txt" />
+    <None Include="Assets\Mapdatatext\savedata_9.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
     private GameObject[] list;
     [SerializeField]
     private GameObject maincamera;
+    [SerializeField]
+    private PhaseResult phaseResult;
 
     static private GameObject map;
 
@@ -38,7 +40,13 @@ public class GameManager : MonoBehaviour {
             {
                 //retext.GetComponent<Text>().text = "";
                 anime = true;
-                rsflg = false;
+                if (phaseResult.RunkLimitCheck())
+                {
+                    phaseResult.GameFinish();
+                    Destroy(this);
+                }
+                else
+                    rsflg = false;
             }
 
 
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour {
                     {
                         Destroy(child.gameObject);
                     }
+                    phaseResult.PhaseUp();
                 }
 
             }
@@ -143,7 +152,7 @@ public class GameManager : MonoBehaviour {
 
     static public void Gameresult()
     {
-
+        Common.Instance.NextPhase();
         rsflg = true;
 
     }

@@ -19,6 +19,7 @@ public class Result : MonoBehaviour {
 	void Start () {
         _goal = true;
         //Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
+        //ResultInstance();
 	}
 
     private void Update()
@@ -51,8 +52,9 @@ public class Result : MonoBehaviour {
     /// </summary>
     public void ResultInstance()
     {
-        Prefab = Instantiate(ResultPrefab);
+        Prefab = Instantiate(ResultPrefab,transform);
         CountText = GameObject.Find("ResultPrefab(Clone)/SumPearl/Count").GetComponent<Text>();
+        CountText.text = null;
         Nextbtn = GameObject.Find("ResultPrefab(Clone)/ToTitle").GetComponent<Button>();
         Nextbtn.onClick.AddListener(NextClick);
         Nextbtn.gameObject.SetActive(false);
@@ -88,6 +90,7 @@ public class Result : MonoBehaviour {
         GameObject EvalPrefab = null;
         switch (count)
         {
+            case 0:
             case 1:
                 EvalPrefab = Resources.Load("Prefabs/Bubble_S") as GameObject;
                 break;

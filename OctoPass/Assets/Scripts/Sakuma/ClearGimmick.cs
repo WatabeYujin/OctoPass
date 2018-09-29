@@ -19,6 +19,7 @@ public class ClearGimmick : MonoBehaviour {
     {
         if (other.gameObject.tag == "Pearl")
         {
+            other.GetComponent<sphere>().isClearChange = true;
             GameObject[] cubes = GameObject.FindGameObjectsWithTag("Pearl");
             for(int i = 0; i < cubes.Length; i++)
             {

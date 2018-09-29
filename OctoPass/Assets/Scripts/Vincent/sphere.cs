@@ -17,6 +17,9 @@ public class sphere : MonoBehaviour {
 
     public float reflectSpeed = 1f;
     public GameObject mainBody;
+
+    private bool isClear = false;
+
     
 
     // Use this for initialization
@@ -61,7 +64,8 @@ public class sphere : MonoBehaviour {
 
     private void OnCollisionEnter(Collision touches)
     {
-        
+
+
         Debug.Log("ball touches " + touches.gameObject.name);
         // if ball touches sucker item destroy else reflect
         // バールが吸盤があった手にあったたらなくなる
@@ -95,7 +99,17 @@ public class sphere : MonoBehaviour {
 
     private void OnDestroy()
     {
+        if (isClear) return;
         Common.Instance.PearlCountUp();
+    }
+
+    public bool isClearChange
+    {
+        set
+        {
+            Debug.Log("呼ばれた");
+            isClear = value;
+        }
     }
 
 }
