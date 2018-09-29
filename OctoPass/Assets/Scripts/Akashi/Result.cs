@@ -6,25 +6,14 @@ public class Result : MonoBehaviour {
 
     [SerializeField, Header("リザルトPrefab")]
     private GameObject ResultPrefab;
+    //パールのカウントTextオブジェクト
     private Text CountText;
+    //戻るボタン
     private Button Nextbtn;
     [SerializeField, Header("ホタテの上の貝の部分")]
     private GameObject Scallops_Top;
 
     private GameObject Prefab;
-
-    private bool _goal = false;
-
-	// Use this for initialization
-	void Start () {
-        _goal = true;
-        //Common.Instance.fasePaerl = new int[] { 1, 5, 2, 7, 1, 2, 4, 6, 10, 1 };
-	}
-
-    private void Update()
-    {
-
-    }
 
     /// <summary>
     /// ホタテが開く時のアニメーション処理
@@ -53,6 +42,7 @@ public class Result : MonoBehaviour {
     {
         Prefab = Instantiate(ResultPrefab);
         CountText = GameObject.Find("ResultPrefab(Clone)/SumPearl/Count").GetComponent<Text>();
+        CountText.text = null;
         Nextbtn = GameObject.Find("ResultPrefab(Clone)/ToTitle").GetComponent<Button>();
         Nextbtn.onClick.AddListener(NextClick);
         Nextbtn.gameObject.SetActive(false);
@@ -104,6 +94,5 @@ public class Result : MonoBehaviour {
                 break;
         }
         Instantiate(EvalPrefab, faseChild.transform);
-        
     }
 }

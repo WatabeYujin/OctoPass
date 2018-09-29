@@ -94,8 +94,10 @@
     <Compile Include="Assets\Scripts\Sakuma\Pearlmove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\ScallopsMove.cs" />
     <Compile Include="Assets\Scripts\Sakuma\TextGenerator.cs" />
+    <Compile Include="Assets\Scripts\Vincent\sphere.cs" />
     <Compile Include="Assets\Scripts\Watabe\OctfootParts.cs" />
     <Compile Include="Assets\Scripts\Watabe\OctofootController.cs" />
+    <Compile Include="Assets\Scripts\Watabe\Sucker.cs" />
     <Compile Include="Assets\Scripts\Watabe\testbullet.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -131,7 +131,7 @@ public class Common : MonoBehaviour {
         if (s_name == SceneName.Title)
         {
             GameObject obj = gameObject.transform.parent.gameObject;
-            Destroy(obj);
+            Destroy(obj, 0.5f);
             common_canvas = null;
         }
     }

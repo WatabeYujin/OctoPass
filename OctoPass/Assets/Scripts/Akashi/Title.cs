@@ -5,12 +5,17 @@ public class Title : MonoBehaviour {
 
     [SerializeField, Header("ほたてObject")]
     private GameObject Hotate;
+    [SerializeField]
+    private RuntimeAnimatorController HotateAnim;
+    [SerializeField]
+    private RuntimeAnimatorController Title_HotateAnim;
 
+    //一回だけ通したい時に使用
     private bool _once = false;
 
 	// Use this for initialization
 	void Start () {
-        Result result = GetComponent<Result>();
+        Hotate.GetComponent<Animator>().runtimeAnimatorController = HotateAnim;
         _once = false;
 	}
 
@@ -31,7 +36,8 @@ public class Title : MonoBehaviour {
     /// </summary>
     private IEnumerator ScallopsAnim()
     {
-        //Hotate.GetComponent<Animation>().Play();
+        Hotate.GetComponent<Animator>().runtimeAnimatorController = Title_HotateAnim;
+        Hotate.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(1.2f);
         Common.Instance.SceneMove(Common.SceneName.Main);
     }
